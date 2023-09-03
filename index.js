@@ -2,12 +2,10 @@
 const INCREMENT = "INCREMENT";
 const DECREMENT = "DECREMENT";
 
-
 //state
 const initialCounterState = {
   count: 0,
 };
-
 
 // action -> odject - 1. type, 2. payload
 // Increment Counter
@@ -25,9 +23,29 @@ const decrementCounterAction = () => {
 };
 
 // create a reducer for counter
+const counterReducer = (state = initialCounterState, action) => {
+  switch (action.type) {
+    case INCREMENT:
+      return {
+        ...state,
+        count: state.count + 1,
+      };
 
+      break;
 
+    case DECREMENT:
+      return {
+        ...state,
+        count: state.count - 1,
+      };
 
+      break;
+
+    default:
+      state;
+      break;
+  }
+};
 
 // 1 state
 // 2. dispatch action
