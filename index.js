@@ -5,88 +5,42 @@
 
 const { createStore } = require("redux");
 
-const INCREMENT = "INCREMENT";
-const DECREMENT = "DECREMENT";
-const RESET = "RESET";
-const INCREMENT_BY_VALUSE = "INCREMENT_BY_VALUSE";
+const ADD_USERS = "ADD_USERS"
 
 const initialState = {
   users:["mst-surnaly-akter"],
-  count: 0,
+  count: 1,
 };
 
-const incrementCounter = () => {
-  return {
-    type: INCREMENT,
-  };
-};
 
-const decrementCounter = () => {
-  return {
-    type: DECREMENT,
-  };
-};
-
-const resetCounter = () => {
-  return {
-    type: RESET,
-  };
-};
-
-const incrementCounterByValue = (value) =>{
+const addUser = (user) =>{
     return{
-        type:INCREMENT_BY_VALUSE,
-        payload:value
+        type:ADD_USERS,
+        payload:user
     }
 }
 
-const counterReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case INCREMENT:
-      return {
-        ...state,
-        count: state.count + 1,
-      };
-      break;
+ const usersReducer = (state=initialState, action) =>{
+    switch (action.type) {
+        case ADD_USERS:
+            return{
+                users:[...state.users, action.payload],
+                count:state.count + 1
+            }
+            break;
 
-    case DECREMENT:
-      return {
-        ...state,
-        count: state.count - 1,
-      };
-      break;
+        default:
+            state;
+            break;
+    }
+ }
 
-    case RESET:
-      return {
-        ...state,
-        count: 0,
-      };
-      break;
-    case INCREMENT_BY_VALUSE:
-      return {
-        ...state,
-        count: state.count + action.payload,
-      };
-      break;
+ const store = createStore(usersReducer);
 
-    default:
-      state;
-      break;
-  }
-};
+ store.subscribe(()=>{
+    console.log(store.getState())
+ });
 
-const store = createStore(counterReducer);
 
-store.subscribe(() => {
-  console.log(store.getState());
-});
-
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-
-store.dispatch(decrementCounter());
-
-store.dispatch(resetCounter());
-
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounterByValue(5));
+ store.dispatch(addUser("Tisha"))
+ store.dispatch(addUser("Salma"))
